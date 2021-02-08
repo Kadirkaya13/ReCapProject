@@ -1,7 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
-using Entities.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,14 +35,19 @@ namespace Business.Concrete
             return _carDal.GetAll(c => c.DailyPrice <= min && c.DailyPrice <= max);
         }
 
-        public List<Car> GetCarsByBrandId(int Id)
+        public List<CarDetailDto> GetCarDetails()
         {
-            throw new NotImplementedException();
+            return _carDal.GetCarDetails();
         }
 
-        public List<Car> GetCarsByColorId(int Id)
+        public List<Car> GetCarsByBrandId(int brandId)
         {
-            throw new NotImplementedException();
+            return _carDal.GetAll(c => c.BrandId == brandId);
+        }
+
+        public List<Car> GetCarsByColorId(int colorId)
+        {
+            return _carDal.GetAll(c => c.ColorId == colorId);
         }
     }
 }

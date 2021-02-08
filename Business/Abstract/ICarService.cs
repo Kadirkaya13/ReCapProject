@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,8 +14,10 @@ namespace Business.Abstract
         List<Car> GetByUnitPrice(decimal min, decimal max);
         List<Car> GetCarsByBrandId(int Id);
         List<Car> GetCarsByColorId(int Id);
-        
-        
-        
+        List<CarDetailDto> GetCarDetails();
+
+
+
+
     }
 }
