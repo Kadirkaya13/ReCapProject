@@ -14,18 +14,18 @@ namespace DataAccess.Concrete.EntityFramework
     public class EFCarDal : EfEntityRepositoryBase<Car, CarsDbContext>, ICarDal
     {   
        
-        public Car GetCarByBrandld(Expression<Func<Car, bool>> filter)
+        public Car GetCarByBrandld(int brandId)
         {
             using (CarsDbContext context = new CarsDbContext())
             {
-                return context.Set<Car>().SingleOrDefault(filter);
+                return context.Set<Car>().SingleOrDefault(b=>b.BrandId==brandId);
             }
         }
-        public Car GetCarByColorld(Expression<Func<Car, bool>> filter)
+        public Car GetCarByColorld(int colorId)
         {
             using (CarsDbContext context = new CarsDbContext())
             {
-                return context.Set<Car>().SingleOrDefault(filter);
+                return context.Set<Car>().SingleOrDefault(c=>c.ColorId==colorId);
             }
         }
 

@@ -59,7 +59,17 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public Car GetCarByBrandld(int brandId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Car GetCarByColorld(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Car GetCarByColorld(int colorId)
         {
             throw new NotImplementedException();
         }
