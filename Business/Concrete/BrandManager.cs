@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -7,7 +9,7 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    class BrandManager : IBrandService
+    public class BrandManager : IBrandService
     {
         IBrandDal _brandDal;
 
@@ -16,14 +18,51 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public List<Brand> GetAll()
+        public IResult Add(Brand brand)
         {
-            return _brandDal.GetAll();
+            if (brand.BrandName.Length<2)
+            {
+                return new ErrorResult(Messages.NameInvalid);
+            }
+            _brandDal.Add(brand);
+           return new SuccessResult(Messages.Added);
         }
 
-        public void GetByld(int brandId)
+        public IResult Delete(Brand brand)
         {
-            _brandDal.GetByld(b => b.BrandId == brandId);
+            if (_brandDal!=brand)
+            {
+                return new ErrorResult(Messages.Invalid);
+            }
+            _brandDal.Delete(brand);
+            return new SuccessResult(Messages.Added);
         }
+
+        public IDataResult<List<Brand>> GetAll()
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(),Messages.Listed);
+        }
+
+        public IResult GetByld(int brandId)
+        {
+           _brandDal.GetByld(b => b.BrandId == brandId);
+            return new SuccessResult(Messages.Listed);
+        }
+
+        public IResult Update(Brand brand)
+        {
+            if (_brandDal != brand)
+            {
+                return new ErrorResult(Messages.Invalid);
+            }
+            _brandDal.Upgrade(brand);
+            return new SuccessResult(Messages.Updated);
+        }
+
+      
     }
 }

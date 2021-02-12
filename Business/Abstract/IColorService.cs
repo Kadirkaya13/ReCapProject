@@ -1,13 +1,17 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Business.Abstract
 {
-    interface IColorService
+    public interface IColorService
     {
-        void GetByld(int Id);
-        List<Color> GetAll();
+        IResult GetByld(int Id);
+        IDataResult <List<Color>> GetAll();
+        IResult Add(Color color);
+        IResult Delete(Color color);
+        IResult Update(Color color);
     }
 }
