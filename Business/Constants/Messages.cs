@@ -13,6 +13,7 @@ namespace Business.Constants
         public static string Invalid = "Girdiniz bilgi ya da bilgiler geçersiz";
         public static string MaintenanceTime = "Bakımda";
         public static string Listed = "Ürünler listelendi";
+        public static string NotReturned = "Kiralamaya çalıştığınız araç teslim edilmedi";
         
 
     }
