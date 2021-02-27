@@ -8,7 +8,7 @@ namespace Business.Abstract
 {
     public interface IRentalService
     {
-        IResult GetByld(int Id);
+        IDataResult<Rental> GetByld(int Id);
         IDataResult<List<Rental>> GetAll();
         IResult Add(Rental rental);
         IResult Delete(Rental rental);

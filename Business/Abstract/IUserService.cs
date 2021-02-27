@@ -8,7 +8,7 @@ namespace Business.Abstract
 {
     public interface IUserService
     {
-        IResult GetByld(int Id);
+        IDataResult<User> GetByld(int Id);
         IDataResult<List<User>> GetAll();
         IResult Add(User user);
         IResult Delete(User user);

@@ -47,10 +47,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(),Messages.Listed);
         }
 
-        public IResult GetByld(int brandId)
+        public IDataResult<Brand> GetByld(int brandId)
         {
-           _brandDal.GetByld(b => b.BrandId == brandId);
-            return new SuccessResult(Messages.Listed);
+           
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == brandId),Messages.Listed);
         }
 
         public IResult Update(Brand brand)
@@ -59,7 +59,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Invalid);
             }
-            _brandDal.Upgrade(brand);
+            _brandDal.Update(brand);
             return new SuccessResult(Messages.Updated);
         }
 

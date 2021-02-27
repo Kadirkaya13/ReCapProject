@@ -38,16 +38,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rental.GetAll(), Messages.Listed);
         }
 
-        public IResult GetByld(int Id)
+        public IDataResult<Rental> GetByld(int Id)
         {
 
-            _rental.GetByld(u => u.CustomerId == Id);
-            return new SuccessResult(Messages.Listed);
+            
+            return new SuccessDataResult<Rental>(_rental.Get(u => u.CustomerId == Id),Messages.Listed);
         }
 
         public IResult Update(Rental rental)
         {           
-            _rental.Upgrade(rental);
+            _rental.Update(rental);
             return new SuccessResult(Messages.Updated);
         }
     }

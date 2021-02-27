@@ -38,17 +38,17 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(_user.GetAll(),Messages.Listed);
         }
 
-        public IResult GetByld(int Id)
+        public IDataResult<User> GetByld(int Id)
         {
 
-            _user.GetByld(u=>u.Id==Id);
-            return new SuccessResult(Messages.Listed);
+            
+            return new SuccessDataResult<User>(_user.Get(u => u.Id == Id),Messages.Listed);
         }
 
         public IResult Update(User user)
         {
             
-            _user.Upgrade(user);
+            _user.Update(user);
             return new SuccessResult(Messages.Updated);
         }
     }

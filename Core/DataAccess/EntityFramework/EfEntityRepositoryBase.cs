@@ -40,7 +40,7 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity GetByld(Expression<Func<TEntity, bool>> filter)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (TContext context = new TContext())
             {
@@ -48,7 +48,7 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public void Upgrade(TEntity entity)
+        public void Update(TEntity entity)
         {
             using (TContext context = new TContext())
             {

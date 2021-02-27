@@ -37,10 +37,10 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
         }
-        public IResult GetByld(int car_Id)
+        public IDataResult<Car> GetByld(int car_Id)
         {
-            _carDal.GetByld(c => c.CarId == car_Id);
-            return new SuccessResult(Messages.Listed);
+            
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == car_Id), Messages.Listed);
         }
         public IDataResult<List<Car>> GetByUnitPrice(decimal min, decimal max)
         {
@@ -63,7 +63,7 @@ namespace Business.Concrete
         }
         public IResult Update(Car car)
         {
-            _carDal.Upgrade(car);
+            _carDal.Update(car);
             return new SuccessResult(Messages.Updated);
         }
     }

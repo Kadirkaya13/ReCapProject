@@ -36,15 +36,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll(),Messages.Listed);
         }
 
-        public IResult GetByld(int colorId)
+        public IDataResult<Color> GetByld(int colorId)
         {
-            _colorDal.GetByld(c => c.ColorId == colorId);
-            return new SuccessResult (Messages.Listed);
+            
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == colorId),Messages.Listed);
         }
 
         public IResult Update(Color color)
         {
-            _colorDal.Upgrade(color);
+            _colorDal.Update(color);
             return new SuccessResult(Messages.Updated);
         }
     }

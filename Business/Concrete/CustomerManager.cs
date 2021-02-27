@@ -38,11 +38,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Customer>>(_customer.GetAll(), Messages.Listed);
         }
 
-        public IResult GetByld(int Id)
+        public IDataResult<Customer> GetByld(int Id)
         {
 
-            _customer.GetByld(u => u.CustomerId == Id);
-            return new SuccessResult(Messages.Listed);
+            
+            return new SuccessDataResult<Customer>(_customer.Get(u => u.CustomerId == Id),Messages.Listed);
         }
 
         public IResult Update(Customer customer)
@@ -51,7 +51,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Invalid);
             }
-            _customer.Upgrade(customer);
+            _customer.Update(customer);
             return new SuccessResult(Messages.Updated);
         }
     }

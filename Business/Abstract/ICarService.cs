@@ -10,7 +10,7 @@ namespace Business.Abstract
 {
     public interface ICarService
     {
-        IResult GetByld(int Id);
+        IDataResult<Car> GetByld(int Id);
         IDataResult<List<Car>> GetAll();
         IDataResult<List<Car>> GetByUnitPrice(decimal min, decimal max);
         IDataResult<List<Car>> GetCarsByBrandId(int Id);
