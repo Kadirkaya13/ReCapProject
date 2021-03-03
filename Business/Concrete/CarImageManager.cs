@@ -100,7 +100,7 @@ namespace Business.Concrete
             var result = _carImageDal.GetAll(c => c.CarId == id).Any();
             if (!result)
             {
-                return new List<CarImage> { new CarImage { CarId = id, ImagePath = path } };
+                return new List<CarImage> { new CarImage{CarId = id,ImagePath = path }};
             }
             return _carImageDal.GetAll(p => p.CarId == id);
         }
