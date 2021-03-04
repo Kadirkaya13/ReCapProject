@@ -1,5 +1,8 @@
 using Business.Abstract;
 using Business.Concrete;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
@@ -41,8 +44,10 @@ namespace WebAPI
 
             //});
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => {
+                .AddJwtBearer(options =>
+                {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -53,7 +58,10 @@ namespace WebAPI
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                     };
-                    });
+                });
+            services.AddDependencyResolvers(new ICoreModule[] {
+            new CoreModule()
+            });
 
             //services.AddSingleton<ICarService,CarManager>();
             //services.AddSingleton<ICarDal,EFCarDal>();

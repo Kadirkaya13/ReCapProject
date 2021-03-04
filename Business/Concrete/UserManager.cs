@@ -46,16 +46,16 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(Messages.Listed);
         }
 
-        public IDataResult<User> GetByMail(string email)
+        public User GetByMail(string email)
         {
-            _user.Get(u => u.Email == email);
-            return new SuccessDataResult<User>();
+            
+            return _user.Get(u => u.Email == email);
         }
 
-        public IDataResult<List<OperationClaim>> GetCleaims(User user)
+        public List<OperationClaim> GetClaims(User user)
         {
-            _user.GetClaims(user);
-            return new SuccessDataResult<List<OperationClaim>>();
+            
+            return _user.GetClaims(user);
         }
 
         public IResult Update(User user)

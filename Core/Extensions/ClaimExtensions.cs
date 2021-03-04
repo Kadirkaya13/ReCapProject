@@ -19,7 +19,7 @@ namespace Core.Extensions
             claims.Add(new Claim(ClaimTypes.Name, name));
 
         }
-        public static void AddIdentifier(this ICollection<Claim> claims, string nameIdentifier)
+        public static void AddNameIdentifier(this ICollection<Claim> claims, string nameIdentifier)
         {
             claims.Add(new Claim(ClaimTypes.NameIdentifier, nameIdentifier));
 
