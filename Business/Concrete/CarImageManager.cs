@@ -4,6 +4,7 @@ using Core.Utilities.Business;
 using Core.Utilities.Helpers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -48,24 +49,26 @@ namespace Business.Concrete
 
         public IDataResult<List<CarImage>> GetAll()
         {
+            
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(), Messages.Listed);
         }
 
-        public IDataResult<CarImage> GetByld(int id)
+        public IDataResult<CarImage> GetByld(int Id)
         {
+            string path = @"\wwwroot\Images\logo.jpg";
+            var result = BusinessRules.Run(CheckIfCarImageNull(path ,Id));
+            if (result!=null)
+            {
+                return new SuccessDataResult<CarImage>();
+            }
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == Id));
 
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == id));
-
-
+         
         }
 
         public IResult Update(IFormFile file,CarImage carImage)
         {
-            var result = BusinessRules.Run(CheckPhotoNumberLimitExceded(carImage.CarId));
-            if (result != null)
-            {
-                return result;
-            }
+            
             carImage.ImagePath = FileHelper.Update(_carImageDal.Get(p => p.Id == carImage.Id).ImagePath, file, FilePaths.CarImages);
             _carImageDal.Update(carImage);
             return new SuccessResult(Messages.Updated);
@@ -94,17 +97,18 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private List<CarImage> CheckIfCarImageNull(int id)
+        private IDataResult<List<CarImage>> CheckIfCarImageNull(string yol,int id)
         {
             string path = @"\wwwroot\Images\logo.jpg";
-            var result = _carImageDal.GetAll(c => c.CarId == id).Any();
-            if (!result)
+            var result = _carImageDal.GetAll().Where(p=>p.Id==id).Any(i => i.ImagePath != yol);
+            if (result)
             {
-                return new List<CarImage> { new CarImage{CarId = id,ImagePath = path }};
+                _carImageDal.Get(p => p.ImagePath == path);
+                return new SuccessDataResult<List<CarImage>>();
             }
-            return _carImageDal.GetAll(p => p.CarId == id);
+            return new ErrorDataResult<List<CarImage>>( _carImageDal.GetAll());
+
+         
         }
-
-
     }
 }
