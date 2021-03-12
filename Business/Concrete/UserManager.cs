@@ -35,15 +35,15 @@ namespace Business.Concrete
 
         public IDataResult<List<User>> GetAll()
         {
-            _user.GetAll();
-            return new SuccessDataResult<List<User>>(Messages.Listed);
+            
+            return new SuccessDataResult<List<User>>(_user.GetAll(),Messages.Listed);
         }
 
         public IDataResult<User> GetByld(int Id)
         {
 
-            _user.Get(u => u.Id == Id);
-            return new SuccessDataResult<User>(Messages.Listed);
+           
+            return new SuccessDataResult<User>( _user.Get(u => u.Id == Id),Messages.Listed);
         }
 
         public User GetByMail(string email)
@@ -60,7 +60,7 @@ namespace Business.Concrete
 
         public IResult Update(User user)
         {
-            
+
             _user.Update(user);
             return new SuccessResult(Messages.Updated);
         }

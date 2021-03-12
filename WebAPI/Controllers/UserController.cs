@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
             var result = _userService.GetByld(id);
             if (result.Success)
             {
-                return Ok(result);
+                return Ok(result.Data);
             }
             return BadRequest(result);
         }

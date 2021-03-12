@@ -14,7 +14,7 @@ namespace Business.Constants
         public static string NameInvalid = "Girdiğiniz isim geçersiz";
         public static string Invalid = "Girdiniz bilgi ya da bilgiler geçersiz";
         public static string MaintenanceTime = "Bakımda";
-        public static string Listed = "Ürünler listelendi";
+        public static string Listed = "Listelendi";
         public static string NotReturned = "Kiralamaya çalıştığınız araç teslim edilmedi";
         public static string PhotoNumberlimitExceded="Bir aracın alabileceği fotograf limitine uşlaşılmıştır";
         public static string UserNotFound="kullanıcı bulunamadı";
