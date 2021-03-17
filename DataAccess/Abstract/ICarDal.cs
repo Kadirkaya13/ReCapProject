@@ -13,7 +13,8 @@ namespace DataAccess.Abstract
         
         Car GetCarByBrandld(int brandId);
         Car GetCarByColorld(int colorId);
-        List<CarDetailDto> GetCarDetails();
+        List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null);
+        List<CarImageDetailDto> GetCarImageDetails(Expression<Func<Car, bool>> filter = null);
 
 
     }

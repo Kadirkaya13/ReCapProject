@@ -81,6 +81,16 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpGet("getcarimagedetail")]
+        public IActionResult GetCarImageDetail()
+        {
+            var result = _carService.GetCarImageDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpGet("getbyunitprice")]
         public IActionResult GetByUnitPrice(decimal min, decimal max)
         {

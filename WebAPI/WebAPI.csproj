@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Images\14dd7143-fce1-44b3-ac15-3eaffba0b08d.jpg" />
+    <Content Include="Images\6a4e93c9-65b9-4223-b151-88ef2774b871.jpg" />
+    <Content Include="Images\a7f5035a-caca-43f8-83a8-4e3666085a88.jpg" />
+    <Content Include="Images\bde1f563-b058-4fee-9550-6b65220b3676.jpg" />
+    <Content Include="Images\c5d62c17-ca86-4d7f-a192-320188551c6a.jpg" />
+    <Content Include="Images\DefaultCar.jpg" />
+    <Content Include="Images\logo.jpg.jfif" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.11" />
   </ItemGroup>
@@ -14,6 +24,10 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 

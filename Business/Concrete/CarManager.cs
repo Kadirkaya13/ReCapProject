@@ -61,16 +61,22 @@ namespace Business.Concrete
 
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.Listed);
         }
+
+        public IDataResult<List<CarImageDetailDto>> GetCarImageDetails()
+        {
+            return new SuccessDataResult<List<CarImageDetailDto>>(_carDal.GetCarImageDetails(), Messages.Listed);
+        }
+
         [CacheAspect]
-        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        public IDataResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
         {
 
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId), Messages.Listed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.BrandId == brandId), Messages.Listed);
         }
         [CacheAspect]
-        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        public IDataResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId), Messages.Listed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.ColorId == colorId), Messages.Listed);
         }
         [SecuredOperation("car.remove,admin")]
         public IResult Update(Car car)

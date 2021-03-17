@@ -25,5 +25,7 @@ namespace Business.Constants
         public static string AccessTokenCreated="Access Token başarı ile oluşturuldu";
         public static string AuthorizationDenied = "Yetkiniz yok";
         public static string hata = "hata";
+
+        public static string CarImageLimitExceeded { get; internal set; }
     }
 }

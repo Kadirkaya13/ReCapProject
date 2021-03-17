@@ -11,6 +11,12 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EFCarImageDal : EfEntityRepositoryBase<CarImage, CarsDbContext>, ICarImageDal
     {
-        
+        public CarImage GetByCarld(int carId)
+        {
+            using (CarsDbContext context = new CarsDbContext())
+            {
+                return context.Set<CarImage>().SingleOrDefault(c => c.CarId == carId);
+            }
+        }
     }
 }

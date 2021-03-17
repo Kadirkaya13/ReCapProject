@@ -29,11 +29,11 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             using (CarsDbContext context = new CarsDbContext())
             {
-                var result = from c in context.Cars
+                var result = from c in filter == null ? context.Cars : context.Cars.Where(filter)
                              join b in context.Brands
                              on c.BrandId equals b.BrandId
                              join cl in context.Colors
@@ -49,6 +49,27 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = c.Description,
                              };
                 return result.ToList();
+            }
+        }
+
+        public List<CarImageDetailDto> GetCarImageDetails(Expression<Func<Car, bool>> filter = null)
+        {
+            using (CarsDbContext context = new CarsDbContext())
+            {
+                var result = from c in filter == null ? context.Cars : context.Cars.Where(filter)
+                             join ci in context.CarImages
+                             on c.CarId equals ci.CarId
+                             select new CarImageDetailDto
+                             {
+                                 CarId = c.CarId,                               
+                                 CarName = c.CarName,
+                                 ModelYear = c.ModelYear,
+                                 DailyPrice = c.DailyPrice,
+                                 ImagePath = ci.ImagePath
+                                 
+                             };
+
+                 return result.ToList();
             }
         }
     }
