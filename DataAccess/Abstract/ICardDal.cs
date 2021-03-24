@@ -6,8 +6,8 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface ICarImageDal:IEntityRepository<CarImage>
+    
+    public interface ICardDal : IEntityRepository<Card>
     {
-        
     }
 }

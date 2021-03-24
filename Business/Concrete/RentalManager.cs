@@ -1,11 +1,13 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -19,12 +21,15 @@ namespace Business.Concrete
         }
         public IResult Add(Rental rental)
         {
-            if (rental.ReturnDate==DateTime.MinValue)
+            var result = BusinessRules.Run(
+                IsRentable(rental));
+            if (result != null)
             {
-                return new ErrorResult(Messages.NotReturned);
+                return result;
             }
+            rental.RentDate = DateTime.Now;
             _rental.Add(rental);
-            return new SuccessResult(Messages.Added);
+            return new SuccessResult();
         }
 
         public IResult Delete(Rental rental)
@@ -52,11 +57,33 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RentalDetailDto>>(_rental.GetRentalDetails(), Messages.Listed);
 
         }
-
+        public IDataResult<Rental> GetAllByCarId(int carId)
+        {
+             return new SuccessDataResult<Rental>(_rental.GetAll(r => r.CarId == carId).SingleOrDefault());
+        }
         public IResult Update(Rental rental)
         {           
             _rental.Update(rental);
             return new SuccessResult(Messages.Updated);
         }
+        public IResult IsRentable(Rental rental)
+        {
+            var result = this.GetAllByCarId(rental.CarId).Data;
+            if (IsDelivered(rental).Success || (rental.RentDate > result.ReturnDate && rental.RentDate >= DateTime.Now))
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult();
+        }
+        public IResult IsDelivered(Rental rental)
+        {
+            var result = this.GetAllByCarId(rental.CarId).Data;
+            if (result == null || result.ReturnDate != default)
+                return new SuccessResult();
+            return new ErrorResult();
+
+        }
+
+      
     }
 }
