@@ -28,28 +28,55 @@ namespace Business.Concrete
             _carImageDAL = carImageDAL;
         }
 
-        //[SecuredOperation("carimage.add,admin")]
-        [ValidationAspect(typeof(CarImageValidator))]
-        [CacheRemoveAspect("ICarImageService.Get")]
+
+
         public IResult Add(IFormFile file, CarImage carImage)
         {
-            IResult result = BusinessRules.Run(CheckImageLimitExceeded(carImage.CarId));
-            if (result != null)
+            var result = BusinessRules.Run(CheckImageLimitExceeded(carImage.CarId));
+            if (result != null) return result;
+            var query = this.Get(carImage.CarId).Data;
+            if (query.ImagePath.Contains("default"))
             {
-                return result;
+                carImage.ImagePath = FileHelper.SaveImageFile("Images", file);
+                carImage.ImageDate = DateTime.Now;
+                carImage.CarImageId = query.CarImageId;
+                carImage.CarId = carImage.CarId;
+                _carImageDAL.Update(carImage);
             }
-            carImage.ImagePath = FileHelper.Add(file);
-            carImage.ImageDate = DateTime.Now;
-            _carImageDAL.Add(carImage);
+            else
+            {
+                carImage.ImagePath = FileHelper.SaveImageFile("Images", file);
+                carImage.ImageDate = DateTime.Now;
+                _carImageDAL.Add(carImage);
+            }
+
             return new SuccessResult(Messages.CarImageAdded);
         }
+
+
+
+        ////[SecuredOperation("carimage.add,admin")]
+        //[ValidationAspect(typeof(CarImageValidator))]
+        //[CacheRemoveAspect("ICarImageService.Get")]
+        //public IResult Add(IFormFile file, CarImage carImage)
+        //{
+        //    IResult result = BusinessRules.Run(CheckImageLimitExceeded(carImage.CarId));
+        //    if (result != null)
+        //    {
+        //        return result;
+        //    }
+        //    carImage.ImagePath = FileHelper.Add(file);
+        //    carImage.ImageDate = DateTime.Now;
+        //    _carImageDAL.Add(carImage);
+        //    return new SuccessResult(Messages.CarImageAdded);
+        //}
 
         [SecuredOperation("carimage.delete,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Delete(CarImage carImage)
         {
-            FileHelper.Delete(carImage.ImagePath);
+            FileHelper.DeleteImageFile(carImage.ImagePath);
             _carImageDAL.Delete(carImage);
             return new SuccessResult(Messages.CarImageDeleted);
         }
@@ -59,7 +86,7 @@ namespace Business.Concrete
         [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Update(IFormFile file, CarImage carImage)
         {
-            carImage.ImagePath = FileHelper.Update(_carImageDAL.Get(p => p.CarImageId == carImage.CarImageId).ImagePath, file);
+            carImage.ImagePath = FileHelper.SaveImageFile(_carImageDAL.Get(p => p.CarImageId == carImage.CarImageId).ImagePath, file);
             carImage.ImageDate = DateTime.Now;
             _carImageDAL.Update(carImage);
             return new SuccessResult(Messages.CarImageUpdated);
@@ -102,6 +129,8 @@ namespace Business.Concrete
             }
             return _carImageDAL.GetAll(p => p.CarId == id);
         }
+
+
 
     }
 }

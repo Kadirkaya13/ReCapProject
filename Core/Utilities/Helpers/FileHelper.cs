@@ -9,59 +9,90 @@ namespace Core.Utilities.FileHelper
 {
     public class FileHelper
     {
-        public static string Add(IFormFile file)
-        {
-            var sourcepath = Path.GetTempFileName();
-            if (file.Length > 0)
-            {
-                using (var stream = new FileStream(sourcepath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-            }
-            var result = newPath(file);
-            File.Move(sourcepath, result.newPath);
-            return result.Path2.Replace("\\", "/");
-        }
-        public static IResult Delete(string path)
-        {
-            path = path.Replace("/", "\\");
-            try
-            {
-                File.Delete(path);
-            }
-            catch (Exception exception)
-            {
-                return new ErrorResult(exception.Message);
-            }
+        //public static string Add(IFormFile file)
+        //{
+        //    var sourcepath = Path.GetTempFileName();
+        //    if (file.Length > 0)
+        //    {
+        //        using (var stream = new FileStream(sourcepath, FileMode.Create))
+        //        {
+        //            file.CopyTo(stream);
+        //        }
+        //    }
+        //    var result = newPath(file);
+        //    File.Move(sourcepath, result.newPath);
+        //    return result.Path2.Replace("\\", "/");
+        //}
+        //public static IResult Delete(string path)
+        //{
+        //    path = path.Replace("/", "\\");
+        //    try
+        //    {
+        //        File.Delete(path);
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        return new ErrorResult(exception.Message);
+        //    }
 
-            return new SuccessResult();
-        }
-        public static string Update(string sourcePath, IFormFile file)
+        //    return new SuccessResult();
+        //}
+        //public static string Update(string sourcePath, IFormFile file)
+        //{
+        //    var result = newPath(file);
+        //    if (sourcePath.Length > 0)
+        //    {
+        //        using (var stream = new FileStream(result.newPath, FileMode.Create))
+        //        {
+        //            file.CopyTo(stream);
+        //        }
+        //    }
+        //    File.Delete(sourcePath);
+        //    return result.Path2.Replace("\\", "/");
+        //}
+        //public static (string newPath, string Path2) newPath(IFormFile file)
+        //{
+        //    FileInfo ff = new FileInfo(file.FileName);
+        //    string fileExtension = ff.Extension;
+
+        //    string path = Environment.CurrentDirectory + @"\wwwroot\Images";
+        //    var newPath = Guid.NewGuid().ToString() + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Year + fileExtension;
+        //    //string webPath = string.Format("/Images/{0}",newPath);
+
+        //    string result = $@"{path}\{newPath}";
+        //    return (result, $"{newPath}");
+        //}
+
+        private static string _wwwRoot = "wwwroot";
+
+        public static string SaveImageFile(string fileName, IFormFile extension)
         {
-            var result = newPath(file);
-            if (sourcePath.Length > 0)
+            string resimUzantisi = Path.GetExtension(extension.FileName);
+            string yeniResimAdi = string.Format("{0:D}{1}", Guid.NewGuid(), resimUzantisi);
+            string imageKlasoru = Path.Combine(_wwwRoot, fileName);
+            string tamResimYolu = Path.Combine(imageKlasoru, yeniResimAdi);
+            string webResimYolu = string.Format( "{0}", yeniResimAdi);
+            if (!Directory.Exists(imageKlasoru))
+                Directory.CreateDirectory(imageKlasoru);
+
+            using (var fileStream = File.Create(tamResimYolu))
             {
-                using (var stream = new FileStream(result.newPath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
+                extension.CopyTo(fileStream);
+                fileStream.Flush();
             }
-            File.Delete(sourcePath);
-            return result.Path2.Replace("\\", "/");
+            return webResimYolu;
         }
-        public static (string newPath, string Path2) newPath(IFormFile file)
+
+        public static bool DeleteImageFile(string fileName)
         {
-            FileInfo ff = new FileInfo(file.FileName);
-            string fileExtension = ff.Extension;
-
-            string path = Environment.CurrentDirectory + @"\wwwroot\Images";
-            var newPath = Guid.NewGuid().ToString() + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Year + fileExtension;
-            //string webPath = string.Format("/Images/{0}",newPath);
-
-            string result = $@"{path}\{newPath}";
-            return (result, $"{newPath}");
+            string fullPath = Path.Combine(fileName);
+            if (File.Exists(_wwwRoot + fullPath))
+            {
+                File.Delete(_wwwRoot + fullPath);
+                return true;
+            }
+            return false;
         }
-
     }
+
 }
