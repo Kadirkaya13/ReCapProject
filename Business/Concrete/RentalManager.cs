@@ -15,9 +15,10 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rental;
-        public RentalManager(IRentalDal rental)
+        public RentalManager(IRentalDal rental,ICardService cardService)
         {
             _rental = rental;
+            
         }
         public IResult Add(Rental rental)
         {
@@ -83,7 +84,5 @@ namespace Business.Concrete
             return new ErrorResult();
 
         }
-
-      
     }
 }

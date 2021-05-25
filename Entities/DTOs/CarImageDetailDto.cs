@@ -13,5 +13,6 @@ namespace Entities.DTOs
         public decimal DailyPrice { get; set; }
         public string ImagePath { get; set; }
         public bool Status { get; set; }
+        public int FindeksNote { get; set; }
     }
 }

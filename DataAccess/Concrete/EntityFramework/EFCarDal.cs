@@ -47,6 +47,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = c.ModelYear,
                                  DailyPrice=c.DailyPrice,
                                  Description = c.Description,
+                                 FindeksNote = c.FindeksNote,
                                  ImagePath = context.CarImages.Where(x => x.CarId == c.CarId).FirstOrDefault().ImagePath,
                                  Status = !(context.Rentals.Any(r => r.CarId == c.CarId && r.ReturnDate == null))
                              };
@@ -67,6 +68,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  CarName = c.CarName,
                                  ModelYear = c.ModelYear,
                                  DailyPrice = c.DailyPrice,
+                                 FindeksNote = c.FindeksNote,
                                  ImagePath = context.CarImages.Where(x => x.CarId == c.CarId).FirstOrDefault().ImagePath,
                                  Status = !(context.Rentals.Any(r => r.CarId == c.CarId && r.ReturnDate == null))
 

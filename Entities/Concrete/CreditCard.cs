@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-    public class Card:IEntity
+    public class CreditCard:IEntity
     {
         public int Id { get; set; }
         public string CardNumber { get; set; }
@@ -15,5 +15,6 @@ namespace Entities.Concrete
         public DateTime ExpirationDate { get; set; }
         public decimal MoneyInCard { get; set; }
         public int FindeksNote { get; set; }
+
     }
 }

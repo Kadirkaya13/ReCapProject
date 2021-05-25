@@ -45,20 +45,17 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Card>>(_cardDal.GetAll(c => c.CardNumber == cardNumber));
         }
 
-        public IResult IsCardExist(Card card)
-        {
-            var result = _cardDal.Get(c => c.NameOnTheCard == card.NameOnTheCard && c.CardNumber == card.CardNumber && c.CardCvv == card.CardCvv);
-            if (result == null)
-            {
-                return new ErrorResult();
-            }
-            return new SuccessResult();
-        }
+       
 
         public IResult Update(Card card)
         {
             _cardDal.Update(card);
             return new SuccessResult();
+        }
+
+        public IResult IsCardExist(Card fakeCard)
+        {
+            throw new NotImplementedException();
         }
     }
 }
