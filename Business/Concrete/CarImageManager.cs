@@ -34,15 +34,26 @@ namespace Business.Concrete
         {
             var result = BusinessRules.Run(CheckImageLimitExceeded(carImage.CarId));
             if (result != null) return result;
+
             var query = this.Get(carImage.CarId).Data;
-            if (query.ImagePath.Contains("default"))
-            {
+
+
+            if (query!=null) {
                 carImage.ImagePath = FileHelper.SaveImageFile("Images", file);
                 carImage.ImageDate = DateTime.Now;
                 carImage.CarImageId = query.CarImageId;
                 carImage.CarId = carImage.CarId;
                 _carImageDAL.Update(carImage);
             }
+            
+            //if (query.ImagePath.Contains("default"))
+            //{
+            //    carImage.ImagePath = FileHelper.SaveImageFile("Images", file);
+            //    carImage.ImageDate = DateTime.Now;
+            //    carImage.CarImageId = query.CarImageId;
+            //    carImage.CarId = carImage.CarId;
+            //    _carImageDAL.Update(carImage);
+            //}
             else
             {
                 carImage.ImagePath = FileHelper.SaveImageFile("Images", file);
